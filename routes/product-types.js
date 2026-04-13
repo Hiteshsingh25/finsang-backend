@@ -8,9 +8,9 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const { data: types, error } = await supabase
-      .from('productypes')
+      .from('product_types')
       .select('*')
-      .order('type', { ascending: true });
+      .order('name', { ascending: true });
     
     if (error) throw error;
     
@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
 router.post("/", authenticateToken, async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from('productypes')
+      .from('product_types')
       .insert([req.body])
       .select()
       .single();
@@ -45,9 +45,9 @@ router.delete("/:id", authenticateToken, async (req, res) => {
     const { id } = req.params;
     
     const { error } = await supabase
-      .from('productypes')
+      .from('product_types')
       .delete()
-      .eq('type', decodeURIComponent(id));
+      .eq('id', id);
     
     if (error) throw error;
     
